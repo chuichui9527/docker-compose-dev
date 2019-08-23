@@ -1,0 +1,39 @@
+version: "3"
+services:
+  nginx:
+    #容器镜像
+    image: "nginx"
+    #容器的名字 
+    container_name: "nginx"
+   #开放端口 
+    ports:
+      - "80:80"
+      - "8080:8080"
+    #绑定的主机目录  
+    volumes:
+      #nginx 额外的主机配置文件目录
+      - "/data/web/config/:/etc/nginx/conf.d"
+      #nginx 配置文件
+      - "/data/web/config/nginx.conf:/etc/nginx/nginx.conf"
+      #nginx数据文件目录
+      - "/data/web/html:/web/html"
+     #绑定的网络 
+    networks:
+     - "cmcc"
+  
+  
+  php:
+  #容器镜像
+    image: "php:7.2.21-fpm"
+    container_name: "php"
+  #暴露给服务的端口  
+    expose:
+      - "9000"
+   #绑定的主机目录   
+    volumes: 
+      - "/data/web/html:/web/html"
+    #这是链接的网络
+    networks:
+     - "cmcc"
+networks:
+   cmcc:
