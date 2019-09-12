@@ -12,9 +12,9 @@ services:
     #绑定的主机目录  
     volumes:
       #nginx 额外的主机配置文件目录
-      - "/data/web/config/:/etc/nginx/conf.d"
+      - "/data/web/config/nginx/conf.d:/etc/nginx/conf.d"
       #nginx 配置文件
-      - "/data/web/config/nginx.conf:/etc/nginx/nginx.conf"
+      #- "/data/web/config/nginx/nginx.conf:/etc/nginx/nginx.conf"
       #nginx数据文件目录
       - "/data/web/html:/web/html"
      #绑定的网络 
@@ -24,7 +24,8 @@ services:
   
   php:
   #容器镜像
-    image: "php:7.2.21-fpm"
+    image: "980198595/php-fpm:latest"
+  #容器的名称  
     container_name: "php"
   #暴露给服务的端口  
     expose:
@@ -35,5 +36,25 @@ services:
     #这是链接的网络
     networks:
      - "cmcc"
+
+
+  mysql:
+    #镜像名称 
+    image: "mysql:5.7.27"
+    #容器的名称
+    container_name: "mysql"
+    #环境变量
+    environment:
+      - MYSQL_ROOT_PASSWORD=53gVeWDVGPjJ5kzH
+    #暴露给内部服务的端口  
+    expose:
+      - "3306"
+    #与主机共享进程命名空间  
+    pid: "host"  
+    #这是链接的网络
+    networks:
+     - "cmcc"
+
+#设置网络     
 networks:
    cmcc:
